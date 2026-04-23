@@ -51,6 +51,8 @@ export default function Navbar() {
         <Link href="/rutas" style={pathname === "/rutas" ? styles.activeLink : styles.link}>Rutas</Link>
         <Link href="/mapas" style={pathname === "/mapas" ? styles.activeLink : styles.link}>Mapas</Link>
         <Link href="/gastos" style={pathname === "/gastos" ? styles.activeLink : styles.link}>Gastos</Link>
+        {/* NUEVO BOTÓN DE VEHÍCULOS AGREGADO AQUÍ 👇 */}
+        <Link href="/vehiculos" style={pathname === "/vehiculos" ? styles.activeLink : styles.link}>Vehículos</Link>
       </div>
 
       {/* DERECHA: USUARIO / AUTH */}
@@ -83,9 +85,9 @@ const styles = {
     alignItems: "center",
     padding: "0 25px",
     height: "75px",
-    background: "linear-gradient(to bottom, #1a1a1a, #0f0f0f)", // Degradado para dar profundidad
-    borderBottom: "2px solid #f39c12", // Línea naranja que destaca
-    boxShadow: "0 4px 20px rgba(243, 156, 18, 0.2)", // Brillo neón naranja
+    background: "linear-gradient(to bottom, #1a1a1a, #0f0f0f)", 
+    borderBottom: "2px solid #f39c12", 
+    boxShadow: "0 4px 20px rgba(243, 156, 18, 0.2)", 
     position: "sticky" as const,
     top: 0,
     zIndex: 1000,
@@ -118,7 +120,7 @@ const styles = {
   
   activeLink: { 
     color: "#000", 
-    background: "#f39c12", // El enlace activo destaca con fondo naranja
+    background: "#f39c12", 
     fontSize: "14px", 
     padding: "8px 15px", 
     borderRadius: "10px", 
