@@ -12,8 +12,7 @@ export default function Navbar() {
 
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
-    if (storedUser) setUser(JSON.parse(storedUser));
-    else setUser(null);
+    setUser(storedUser ? JSON.parse(storedUser) : null);
     setIsOpen(false);
   }, [pathname]);
 
@@ -21,108 +20,43 @@ export default function Navbar() {
     if (confirm("¿Cerrar sesión, camper? 🚐")) {
       localStorage.removeItem("user");
       setUser(null);
-      setIsOpen(false);
       router.push("/");
     }
   };
 
   return (
-    <nav style={styles.nav}>
-      <style dangerouslySetInnerHTML={{ __html: `
-        .menu-links { display: flex; gap: 15px; align-items: center; }
-        .hamburger { display: none; cursor: pointer; font-size: 28px; color: #f39c12; background: none; border: none; }
-        
-        @media (max-width: 850px) {
-          .hamburger { display: block; order: 2; }
-          .menu-links { 
-            display: ${isOpen ? "flex" : "none"}; 
-            flex-direction: column; position: absolute; top: 70px; left: 0; right: 0; 
-            background: #0f0f0f; padding: 20px; border-bottom: 2px solid #f39c12; z-index: 1000;
-          }
-          .user-zone-desktop { display: none !important; }
-          .mobile-user-info { display: block !important; border-top: 1px solid #333; padding-top: 15px; width: 100%; text-align: center; }
-        }
-        @media (min-width: 851px) {
-          .mobile-user-info { display: none !important; }
-        }
-      `}} />
-
-      {/* LOGO */}
-      <Link href="/" style={styles.logo}>
+    <nav style={{
+      height: "70px",
+      background: "#0a0a0a",
+      display: "flex",
+      justifyContent: "space-between",
+      alignItems: "center",
+      padding: "0 20px",
+      borderBottom: "3px solid #f39c12", // SEPARADOR MÁS GRUESO PARA QUE SE VEA SÍ O SÍ
+      position: "sticky",
+      top: 0,
+      zIndex: 1000
+    }}>
+      <Link href="/" style={{ fontSize: '22px', fontWeight: 'bold', color: '#f39c12', textDecoration: 'none' }}>
         Rutas<span style={{color:'#fff'}}>Go</span>
       </Link>
 
-      {/* BOTÓN MÓVIL */}
-      <button className="hamburger" onClick={() => setIsOpen(!isOpen)}>
-        {isOpen ? "✕" : "☰"}
-      </button>
-
-      {/* ENLACES CENTRALES */}
-      <div className="menu-links">
-        <Link href="/" style={pathname === "/" ? styles.activeLink : styles.link}>Inicio</Link>
-        {user && (
-          <>
-            <Link href="/rutas" style={pathname === "/rutas" ? styles.activeLink : styles.link}>Rutas</Link>
-            <Link href="/gastos" style={pathname === "/gastos" ? styles.activeLink : styles.link}>Gastos</Link>
-            <Link href="/vehiculos" style={pathname === "/vehiculos" ? styles.activeLink : styles.link}>Vehículos</Link>
-            
-            {/* ESTO SOLO SE VE EN EL DESPLEGABLE MÓVIL */}
-            <div className="mobile-user-info">
-               <span style={{color: '#f39c12', display: 'block', marginBottom: '10px', fontWeight: 'bold'}}>{user.username}</span>
-               <button onClick={logout} style={styles.logoutBtnMobile}>Cerrar Sesión 🚪</button>
-            </div>
-          </>
-        )}
-        {!user && (
-          <div className="mobile-user-info">
-            <Link href="/login" style={styles.link}>Entrar</Link>
-            <Link href="/register" style={styles.registerBtn}>Registrarse</Link>
-          </div>
-        )}
-      </div>
-
-      {/* USUARIO ESCRITORIO */}
-      <div className="user-zone-desktop" style={styles.rightSection}>
+      <div style={{ display: 'flex', gap: '15px', alignItems: 'center' }}>
+        <Link href="/" style={{ color: pathname === "/" ? "#f39c12" : "#fff", textDecoration: 'none', fontSize: '14px' }}>Inicio</Link>
         {user ? (
-          <div style={styles.userBadge}>
-            <div style={styles.avatar}>{user.username.charAt(0).toUpperCase()}</div>
-            <span style={styles.userName}>{user.username}</span>
-            <button onClick={logout} style={styles.logoutBtn}>Salir</button>
-          </div>
+          <>
+            <Link href="/rutas" style={{ color: "#fff", textDecoration: 'none', fontSize: '14px' }}>Rutas</Link>
+            <Link href="/gastos" style={{ color: "#fff", textDecoration: 'none', fontSize: '14px' }}>Gastos</Link>
+            <Link href="/vehiculos" style={{ color: "#fff", textDecoration: 'none', fontSize: '14px' }}>Vehículos</Link>
+            <button onClick={logout} style={{ background: '#e74c3c', color: '#fff', border: 'none', padding: '5px 10px', borderRadius: '5px', cursor: 'pointer' }}>Salir</button>
+          </>
         ) : (
-          <div style={styles.authGroup}>
-            <Link href="/login" style={styles.link}>Entrar</Link>
-            <Link href="/register" style={styles.registerBtn}>Registrarse</Link>
-          </div>
+          <>
+            <Link href="/login" style={{ color: "#fff", textDecoration: 'none', fontSize: '14px' }}>Entrar</Link>
+            <Link href="/register" style={{ background: "#f39c12", color: "#000", padding: "5px 10px", borderRadius: "5px", textDecoration: 'none', fontSize: '14px', fontWeight: 'bold' }}>Registrarse</Link>
+          </>
         )}
       </div>
     </nav>
   );
 }
-
-const styles = {
-  nav: { 
-    height: "70px", 
-    background: "#0a0a0a", 
-    display: "flex", 
-    justifyContent: "space-between", 
-    alignItems: "center", 
-    padding: "0 30px", 
-    borderBottom: "2px solid #f39c12", // EL SEPARADOR NARANJA
-    boxShadow: "0 4px 10px rgba(0,0,0,0.5)",
-    position: "sticky" as const, 
-    top: 0, 
-    zIndex: 1000 
-  },
-  logo: { fontSize: '24px', fontWeight: '900', color: '#f39c12', textDecoration: 'none' },
-  link: { color: "#aaa", textDecoration: "none", fontSize: "14px", padding: "8px 15px", borderRadius: "8px" },
-  activeLink: { color: "#000", background: "#f39c12", textDecoration: "none", fontSize: "14px", padding: "8px 15px", borderRadius: "8px", fontWeight: "bold" as const },
-  rightSection: { display: "flex", alignItems: "center" },
-  userBadge: { display: 'flex', alignItems: 'center', gap: '10px', background: '#161616', padding: '5px 5px 5px 12px', borderRadius: '30px', border: '1px solid #333' },
-  avatar: { width: '28px', height: '28px', background: '#f39c12', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 'bold' as const, color: '#000', fontSize: '12px' },
-  userName: { color: '#fff', fontSize: '14px' },
-  logoutBtn: { background: '#e74c3c', color: '#fff', border: 'none', padding: '6px 12px', borderRadius: '20px', fontSize: '11px', cursor: 'pointer', marginLeft: '5px' },
-  logoutBtnMobile: { background: '#e74c3c', color: '#fff', border: 'none', padding: '12px', borderRadius: '8px', width: '100%', fontWeight: 'bold' as const },
-  authGroup: { display: "flex", gap: "10px" },
-  registerBtn: { background: "#f39c12", color: "#000", padding: "8px 16px", borderRadius: "8px", textDecoration: "none", fontSize: "14px", fontWeight: "bold" as const }
-};
