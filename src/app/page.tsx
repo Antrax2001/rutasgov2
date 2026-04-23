@@ -46,7 +46,7 @@ export default function Home() {
               Hola de nuevo, <span style={styles.highlight}>{user.username}</span> 👋
             </h2>
             
-            {/* GRID DE 6 TARJETAS (3x2 en escritorio, centrado) */}
+            {/* GRID RESPONSIVO CORREGIDO */}
             <div style={styles.dashboardGrid}>
               
               <button style={styles.cardBtn} onClick={() => router.push("/rutas")}>
@@ -129,18 +129,19 @@ const styles = {
     background: "#0a0a0a",
     color: "#fff",
     position: "relative" as const,
-    overflow: "hidden",
-    padding: "40px 20px",
+    overflowX: "hidden" as const, // Evita scroll horizontal
+    padding: "20px",
   },
   glow: {
     position: "absolute" as const,
-    top: "20%",
+    top: "10%",
     left: "50%",
-    transform: "translate(-50%, -50%)",
-    width: "500px",
-    height: "500px",
-    background: "rgba(243, 156, 18, 0.1)",
-    filter: "blur(120px)",
+    transform: "translateX(-50%)",
+    width: "100%",
+    maxWidth: "500px",
+    height: "400px",
+    background: "rgba(243, 156, 18, 0.05)",
+    filter: "blur(100px)",
     borderRadius: "50%",
     zIndex: 0,
   },
@@ -155,14 +156,14 @@ const styles = {
     alignItems: "center",
   },
   logoWrapper: {
-    marginBottom: "40px",
+    marginBottom: "30px",
     display: 'flex',
     flexDirection: 'column' as const,
     alignItems: 'center',
   },
   circleContainer: {
-    width: "120px",
-    height: "120px",
+    width: "100px",
+    height: "100px",
     borderRadius: "50%",
     border: "2px solid #f39c12",
     padding: "5px",
@@ -170,8 +171,8 @@ const styles = {
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    marginBottom: "20px",
-    boxShadow: "0 0 25px rgba(243, 156, 18, 0.2)",
+    marginBottom: "15px",
+    boxShadow: "0 0 20px rgba(243, 156, 18, 0.2)",
     overflow: 'hidden'
   },
   circularLogo: {
@@ -181,13 +182,13 @@ const styles = {
     borderRadius: "50%",
   },
   mainTitle: {
-    fontSize: "50px",
+    fontSize: "clamp(35px, 8vw, 50px)", // Tamaño flexible para móvil
     fontWeight: "900",
     color: "#f39c12",
     margin: 0,
-    letterSpacing: "-2px",
+    letterSpacing: "-1px",
   },
-  tagline: { fontSize: "16px", color: "#555", marginTop: "5px" },
+  tagline: { fontSize: "14px", color: "#666", marginTop: "5px" },
   
   welcomeSection: {
     width: "100%",
@@ -195,68 +196,79 @@ const styles = {
     flexDirection: "column" as const,
     alignItems: "center",
   },
-  greet: { fontSize: "28px", fontWeight: "300", marginBottom: "40px" },
+  greet: { 
+    fontSize: "clamp(20px, 5vw, 28px)", 
+    fontWeight: "300", 
+    marginBottom: "30px",
+    textAlign: "center" as const 
+  },
   highlight: { color: "#f39c12", fontWeight: "bold" },
   
-  /* GRID CORREGIDO PARA 6 TARJETAS */
   dashboardGrid: {
     display: "grid",
-    // 3 columnas en pantallas grandes, 2 en tablets, 1 en móvil
+    // LA MAGIA: repeat(auto-fit, minmax(280px, 1fr)) hace que sea responsivo solo
     gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
-    gap: "20px",
+    gap: "15px",
     width: "100%",
-    maxWidth: "950px", 
+    maxWidth: "1000px", 
     justifyContent: "center",
   },
 
   cardBtn: {
     background: "#161616",
     border: "1px solid #222",
-    padding: "25px",
-    borderRadius: "20px",
+    padding: "20px",
+    borderRadius: "18px",
     display: "flex",
     alignItems: "center",
-    gap: "20px",
+    gap: "15px",
     cursor: "pointer",
     color: "#fff",
-    transition: "all 0.2s ease-in-out",
+    transition: "all 0.2s ease",
     textAlign: "left" as const,
   },
   iconBox: {
-    fontSize: "30px",
+    fontSize: "24px",
     background: "#222",
-    minWidth: "60px",
-    height: "60px",
-    borderRadius: "15px",
+    minWidth: "50px",
+    height: "50px",
+    borderRadius: "12px",
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
     border: "1px solid #333",
   },
   btnText: { display: "flex", flexDirection: "column" as const, gap: "2px" },
-  btnTitle: { fontSize: "17px", color: "#fff" },
-  btnDesc: { fontSize: "13px", color: "#666" },
+  btnTitle: { fontSize: "16px", color: "#fff", fontWeight: "bold" as const },
+  btnDesc: { fontSize: "12px", color: "#666" },
 
-  ctaSection: { maxWidth: "500px" },
-  description: { fontSize: "17px", color: "#888", marginBottom: "40px", lineHeight: "1.6" },
-  ctaButtons: { display: "flex", gap: "15px", justifyContent: "center" },
+  ctaSection: { maxWidth: "500px", padding: "0 20px" },
+  description: { fontSize: "16px", color: "#888", marginBottom: "30px", lineHeight: "1.5" },
+  ctaButtons: { 
+    display: "flex", 
+    gap: "10px", 
+    justifyContent: "center",
+    flexWrap: "wrap" as const // En móviles muy pequeños, un botón encima de otro
+  },
   primaryBtn: {
-    padding: "16px 30px",
-    borderRadius: "12px",
+    padding: "14px 24px",
+    borderRadius: "10px",
     border: "none",
     background: "#f39c12",
     color: "#000",
-    fontSize: "16px",
+    fontSize: "15px",
     fontWeight: "bold",
     cursor: "pointer",
+    minWidth: "160px"
   },
   secondaryBtn: {
-    padding: "16px 30px",
-    borderRadius: "12px",
+    padding: "14px 24px",
+    borderRadius: "10px",
     border: "1px solid #333",
     background: "transparent",
     color: "#fff",
-    fontSize: "16px",
+    fontSize: "15px",
     cursor: "pointer",
+    minWidth: "160px"
   },
 };
