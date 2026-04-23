@@ -35,11 +35,11 @@ export default function Navbar() {
           .hamburger { display: block; order: 2; }
           .menu-links { 
             display: ${isOpen ? "flex" : "none"}; 
-            flex-direction: column; position: absolute; top: 70px; left: 0; right: 0; 
-            background: #111; padding: 20px; border-bottom: 2px solid #f39c12; z-index: 1000;
+            flex-direction: column; position: absolute; top: 69px; left: 0; right: 0; 
+            background: #0f0f0f; padding: 20px; border-bottom: 2px solid #f39c12; z-index: 1000;
           }
-          .user-zone { display: none !important; } /* Ocultamos user en barra móvil para no colapsar */
-          .menu-links .mobile-user { display: block !important; border-top: 1px solid #333; padding-top: 10px; width: 100%; text-align: center; }
+          .user-zone { display: none !important; }
+          .menu-links .mobile-user { display: block !important; border-top: 1px solid #333; padding-top: 15px; width: 100%; text-align: center; }
         }
         @media (min-width: 851px) {
           .mobile-user { display: none !important; }
@@ -51,7 +51,7 @@ export default function Navbar() {
         Rutas<span style={{color:'#fff'}}>Go</span>
       </Link>
 
-      {/* BOTÓN HAMBURGUESA */}
+      {/* BOTÓN HAMBURGUESA (MÓVIL) */}
       <button className="hamburger" onClick={() => setIsOpen(!isOpen)}>
         {isOpen ? "✕" : "☰"}
       </button>
@@ -65,7 +65,7 @@ export default function Navbar() {
             <Link href="/gastos" style={pathname === "/gastos" ? styles.activeLink : styles.link}>Gastos</Link>
             <Link href="/vehiculos" style={pathname === "/vehiculos" ? styles.activeLink : styles.link}>Vehículos</Link>
             <div className="mobile-user">
-               <span style={{color: '#f39c12', display: 'block', marginBottom: '5px'}}>{user.username}</span>
+               <span style={{color: '#f39c12', display: 'block', marginBottom: '10px', fontWeight: 'bold'}}>{user.username}</span>
                <button onClick={logout} style={styles.logoutBtnMobile}>Cerrar Sesión 🚪</button>
             </div>
           </>
@@ -78,7 +78,7 @@ export default function Navbar() {
         )}
       </div>
 
-      {/* DERECHA: USUARIO (SÓLO ESCRITORIO) */}
+      {/* DERECHA: USUARIO (PC) */}
       <div className="user-zone" style={styles.rightSection}>
         {user ? (
           <div style={styles.userBadge}>
@@ -98,16 +98,29 @@ export default function Navbar() {
 }
 
 const styles = {
-  nav: { height: "70px", background: "#0a0a0a", display: "flex", justifyContent: "space-between", alignItems: "center", padding: "0 30px", borderBottom: "1px solid #222", position: "sticky" as const, top: 0, zIndex: 1000 },
+  nav: { 
+    height: "70px", 
+    background: "linear-gradient(to bottom, #1a1a1a, #0a0a0a)", 
+    display: "flex", 
+    justifyContent: "space-between", 
+    alignItems: "center", 
+    padding: "0 30px", 
+    // AQUÍ ESTÁ EL SEPARADOR NARANJA RECUPERADO 👇
+    borderBottom: "2px solid #f39c12", 
+    boxShadow: "0 4px 15px rgba(243, 156, 18, 0.15)",
+    position: "sticky" as const, 
+    top: 0, 
+    zIndex: 1000 
+  },
   logo: { fontSize: '24px', fontWeight: '900', color: '#f39c12', textDecoration: 'none', letterSpacing: '-1px' },
-  link: { color: "#888", textDecoration: "none", fontSize: "14px", padding: "8px 15px", borderRadius: "8px", transition: "0.3s" },
-  activeLink: { color: "#fff", background: "#f39c12", textDecoration: "none", fontSize: "14px", padding: "8px 15px", borderRadius: "8px", fontWeight: "bold" as const },
+  link: { color: "#aaa", textDecoration: "none", fontSize: "14px", padding: "8px 15px", borderRadius: "8px", transition: "0.3s" },
+  activeLink: { color: "#000", background: "#f39c12", textDecoration: "none", fontSize: "14px", padding: "8px 15px", borderRadius: "8px", fontWeight: "bold" as const },
   rightSection: { display: "flex", alignItems: "center" },
-  userBadge: { display: 'flex', alignItems: 'center', gap: '10px', background: '#161616', padding: '5px 5px 5px 12px', borderRadius: '30px', border: '1px solid #333' },
+  userBadge: { display: 'flex', alignItems: 'center', gap: '10px', background: '#000', padding: '5px 5px 5px 12px', borderRadius: '30px', border: '1px solid #333' },
   avatar: { width: '28px', height: '28px', background: '#f39c12', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 'bold' as const, color: '#000', fontSize: '12px' },
-  userName: { color: '#fff', fontSize: '14px', fontWeight: '500' },
-  logoutBtn: { background: '#cc2b1d', color: '#fff', border: 'none', padding: '6px 12px', borderRadius: '20px', fontSize: '12px', cursor: 'pointer', fontWeight: 'bold' as const },
-  logoutBtnMobile: { background: '#cc2b1d', color: '#fff', border: 'none', padding: '10px', borderRadius: '8px', width: '100%', marginTop: '5px' },
+  userName: { color: '#fff', fontSize: '14px', fontWeight: '600' },
+  logoutBtn: { background: '#e74c3c', color: '#fff', border: 'none', padding: '6px 15px', borderRadius: '20px', fontSize: '12px', cursor: 'pointer', fontWeight: 'bold' as const, marginLeft: '5px' },
+  logoutBtnMobile: { background: '#e74c3c', color: '#fff', border: 'none', padding: '12px', borderRadius: '8px', width: '100%', fontWeight: 'bold' as const },
   authGroup: { display: "flex", gap: "10px" },
   registerBtn: { background: "#f39c12", color: "#000", padding: "8px 16px", borderRadius: "8px", textDecoration: "none", fontSize: "14px", fontWeight: "bold" as const }
 };
