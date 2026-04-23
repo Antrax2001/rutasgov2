@@ -17,11 +17,13 @@ export default function Navbar() {
     setIsOpen(false);
   }, [pathname]);
 
+  // FUNCIÓN DE SALIR CORREGIDA PARA IR A INICIO
   const logout = () => {
     if (confirm("¿Cerrar sesión, camper? 🚐")) {
       localStorage.removeItem("user");
       setUser(null);
-      router.push("/login");
+      setIsOpen(false);
+      router.push("/"); // <--- ESTO TE LLEVA AL INICIO
     }
   };
 
@@ -46,17 +48,17 @@ export default function Navbar() {
         }
       `}} />
 
-      {/* IZQUIERDA: LOGO */}
+      {/* LOGO */}
       <Link href="/" style={styles.logo}>
         Rutas<span style={{color:'#fff'}}>Go</span>
       </Link>
 
-      {/* BOTÓN HAMBURGUESA (MÓVIL) */}
+      {/* HAMBURGUESA */}
       <button className="hamburger" onClick={() => setIsOpen(!isOpen)}>
         {isOpen ? "✕" : "☰"}
       </button>
 
-      {/* CENTRO: ENLACES */}
+      {/* ENLACES */}
       <div className="menu-links">
         <Link href="/" style={pathname === "/" ? styles.activeLink : styles.link}>Inicio</Link>
         {user && (
@@ -78,7 +80,7 @@ export default function Navbar() {
         )}
       </div>
 
-      {/* DERECHA: USUARIO (PC) */}
+      {/* USUARIO PC */}
       <div className="user-zone" style={styles.rightSection}>
         {user ? (
           <div style={styles.userBadge}>
@@ -105,8 +107,7 @@ const styles = {
     justifyContent: "space-between", 
     alignItems: "center", 
     padding: "0 30px", 
-    // AQUÍ ESTÁ EL SEPARADOR NARANJA RECUPERADO 👇
-    borderBottom: "2px solid #f39c12", 
+    borderBottom: "2px solid #f39c12", // SEPARADOR NARANJA
     boxShadow: "0 4px 15px rgba(243, 156, 18, 0.15)",
     position: "sticky" as const, 
     top: 0, 
