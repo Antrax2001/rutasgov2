@@ -13,56 +13,48 @@ export default function Home() {
   }, []);
 
   const cards = [
-    { title: "Explorar Rutas", desc: "Tus viajes grabados", icon: "🛣️", path: "/rutas", color: "#f39c12" },
-    { title: "Control de Gastos", desc: "Presupuesto al día", icon: "💸", path: "/gastos", color: "#2ecc71" },
-    { title: "Mapa Interactivo", desc: "Lugares visitados", icon: "📍", path: "/mapas", color: "#3498db" },
-    { title: "Mis Vehículos", desc: "Tu flota camper", icon: "🚐", path: "/vehiculos", color: "#e67e22" },
-    { title: "Comunidad", desc: "Rutas de otros", icon: "🌍", path: "/comunidad", color: "#9b59b6" },
-    { title: "Mi Perfil", desc: "Ajustes de cuenta", icon: "👤", path: "/perfil", color: "#95a5a6" },
+    { title: "Explorar Rutas", desc: "Tus viajes grabados", icon: "🛣️", path: "/rutas", img: "https://images.unsplash.com/photo-1523987355523-c7b5b0dd90a7?auto=format&fit=crop&q=80&w=400" },
+    { title: "Control de Gastos", desc: "Presupuesto al día", icon: "💸", path: "/gastos", img: "https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&q=80&w=400" },
+    { title: "Mapa Interactivo", desc: "Lugares visitados", icon: "📍", path: "/mapas", img: "https://images.unsplash.com/photo-1526772662000-3f88f10405ff?auto=format&fit=crop&q=80&w=400" },
+    { title: "Mis Vehículos", desc: "Tu flota camper", icon: "🚐", path: "/vehiculos", img: "https://images.unsplash.com/photo-1533923156416-ac6435c55244?auto=format&fit=crop&q=80&w=400" },
+    { title: "Comunidad", desc: "Rutas de otros", icon: "🌍", path: "/comunidad", img: "https://images.unsplash.com/photo-1529392266961-f092301a2162?auto=format&fit=crop&q=80&w=400" },
+    { title: "Mi Perfil", desc: "Ajustes de cuenta", icon: "👤", path: "/perfil", img: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&q=80&w=400" },
   ];
 
   return (
     <main style={styles.hero}>
-      {/* Luces de fondo (Efecto fogata/neón) */}
-      <div style={styles.glowTop}></div>
-      <div style={styles.glowBottom}></div>
+      {/* Fondo de pantalla completa con imagen épica */}
+      <div style={styles.backgroundOverlay}></div>
 
       <div style={styles.content}>
-        <div style={styles.headerSection}>
-          <div style={styles.logoCircle}>
-            <img src="/logo.png" alt="Logo" style={styles.logoImg} />
-          </div>
+        <div style={styles.header}>
           <h1 style={styles.mainTitle}>Rutas<span style={{ color: '#fff' }}>Go</span></h1>
-          <p style={styles.tagline}>Aventuras organizadas, memorias infinitas.</p>
+          <p style={styles.tagline}>La libertad tiene un mapa, y tú tienes el control.</p>
         </div>
 
         {user ? (
-          <div style={styles.dashboardContainer}>
-            <h2 style={styles.greet}>¡Qué bueno verte, <span style={styles.highlight}>{user.username}</span>! 🚐💨</h2>
+          <div style={styles.container}>
+            <h2 style={styles.greet}>Bon dia, <span style={styles.highlight}>{user.username}</span>! 🌲</h2>
             <div style={styles.grid}>
               {cards.map((card, i) => (
-                <div 
-                  key={i} 
-                  style={styles.card} 
-                  onClick={() => router.push(card.path)}
-                  onMouseEnter={(e) => e.currentTarget.style.transform = "translateY(-10px)"}
-                  onMouseLeave={(e) => e.currentTarget.style.transform = "translateY(0)"}
-                >
-                  <div style={{...styles.iconBox, borderColor: card.color}}>
+                <div key={i} style={styles.card} onClick={() => router.push(card.path)}>
+                  {/* Imagen de fondo de la tarjeta */}
+                  <div style={{...styles.cardBg, backgroundImage: `url(${card.img})`}}></div>
+                  <div style={styles.cardOverlay}></div>
+                  
+                  <div style={styles.cardContent}>
                     <span style={styles.icon}>{card.icon}</span>
+                    <h3 style={styles.cardTitle}>{card.title}</h3>
+                    <p style={styles.cardDesc}>{card.desc}</p>
                   </div>
-                  <h3 style={styles.cardTitle}>{card.title}</h3>
-                  <p style={styles.cardDesc}>{card.desc}</p>
-                  <div style={{...styles.cardLine, backgroundColor: card.color}}></div>
                 </div>
               ))}
             </div>
           </div>
         ) : (
           <div style={styles.cta}>
-            <p style={styles.ctaText}>La herramienta definitiva para nómadas digitales y amantes del camper.</p>
             <button style={styles.mainBtn} onClick={() => router.push("/register")}>
-              Comenzar el viaje
+              Empezar mi ruta 🚐
             </button>
           </div>
         )}
@@ -74,83 +66,72 @@ export default function Home() {
 const styles = {
   hero: {
     minHeight: "calc(100vh - 75px)",
-    background: "#050505",
-    color: "#fff",
     position: "relative" as const,
-    overflow: "hidden",
     display: "flex",
     justifyContent: "center",
-    padding: "60px 20px"
+    padding: "40px 20px",
+    background: "#000 url('https://images.unsplash.com/photo-1469854523086-cc02fe5d8df9?auto=format&fit=crop&q=80&w=1200') no-repeat center/cover fixed",
   },
-  glowTop: {
+  backgroundOverlay: {
     position: "absolute" as const,
-    top: "-10%",
-    left: "50%",
-    width: "600px",
-    height: "600px",
-    background: "radial-gradient(circle, rgba(243, 156, 18, 0.15) 0%, transparent 70%)",
-    transform: "translateX(-50%)",
+    top: 0, left: 0, right: 0, bottom: 0,
+    background: "linear-gradient(to bottom, rgba(0,0,0,0.8), rgba(0,0,0,0.4), rgba(0,0,0,0.9))",
     zIndex: 0
   },
-  glowBottom: {
-    position: "absolute" as const,
-    bottom: "-20%",
-    right: "-10%",
-    width: "400px",
-    height: "400px",
-    background: "radial-gradient(circle, rgba(243, 156, 18, 0.1) 0%, transparent 70%)",
-    zIndex: 0
-  },
-  content: { position: "relative" as const, zIndex: 1, width: "100%", maxWidth: "1100px", textAlign: "center" as const },
-  headerSection: { marginBottom: "50px" },
-  logoCircle: {
-    width: "110px", height: "110px", borderRadius: "50%", background: "#111",
-    border: "3px solid #f39c12", margin: "0 auto 20px", padding: "5px",
-    boxShadow: "0 0 30px rgba(243, 156, 18, 0.3)"
-  },
-  logoImg: { width: "100%", height: "100%", objectFit: "cover" as const, borderRadius: "50%" },
-  mainTitle: { fontSize: "clamp(40px, 8vw, 65px)", fontWeight: "900", margin: 0, letterSpacing: "-3px", color: "#f39c12" },
-  tagline: { fontSize: "18px", color: "#666", letterSpacing: "1px" },
+  content: { position: "relative" as const, zIndex: 1, width: "100%", maxWidth: "1200px" },
+  header: { textAlign: "center" as const, marginBottom: "40px" },
+  mainTitle: { fontSize: "clamp(50px, 10vw, 80px)", fontWeight: "900", color: "#f39c12", margin: 0, letterSpacing: "-3px" },
+  tagline: { color: "#ddd", fontSize: "18px", fontStyle: "italic" },
   
-  dashboardContainer: { marginTop: "20px" },
-  greet: { fontSize: "24px", fontWeight: "300", marginBottom: "40px" },
+  container: { textAlign: "center" as const },
+  greet: { fontSize: "28px", color: "#fff", marginBottom: "30px", fontWeight: "300" },
   highlight: { color: "#f39c12", fontWeight: "bold" },
   
   grid: {
     display: "grid",
-    gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
+    gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
     gap: "25px",
-    perspective: "1000px"
   },
   card: {
-    background: "rgba(255, 255, 255, 0.03)",
-    backdropFilter: "blur(10px)",
-    border: "1px solid rgba(255, 255, 255, 0.05)",
-    borderRadius: "24px",
-    padding: "40px 30px",
-    cursor: "pointer",
-    transition: "all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)",
+    height: "220px",
+    borderRadius: "25px",
     position: "relative" as const,
     overflow: "hidden" as const,
+    cursor: "pointer",
+    border: "1px solid rgba(255,255,255,0.1)",
+    boxShadow: "0 10px 30px rgba(0,0,0,0.5)",
+    transition: "transform 0.3s ease",
+  },
+  cardBg: {
+    position: "absolute" as const,
+    top: 0, left: 0, right: 0, bottom: 0,
+    backgroundSize: "cover",
+    backgroundPosition: "center",
+    transition: "transform 0.5s ease",
+  },
+  cardOverlay: {
+    position: "absolute" as const,
+    top: 0, left: 0, right: 0, bottom: 0,
+    background: "linear-gradient(to top, rgba(0,0,0,0.9) 20%, rgba(0,0,0,0.2))",
+  },
+  cardContent: {
+    position: "relative" as const,
+    height: "100%",
+    padding: "30px",
     display: "flex",
     flexDirection: "column" as const,
-    alignItems: "center"
+    justifyContent: "flex-end",
+    alignItems: "flex-start" as const,
+    textAlign: "left" as const,
   },
-  iconBox: {
-    width: "70px", height: "70px", borderRadius: "20px", background: "#000",
-    border: "2px solid", display: "flex", alignItems: "center", justifyContent: "center",
-    marginBottom: "20px", boxShadow: "0 10px 20px rgba(0,0,0,0.4)"
-  },
-  icon: { fontSize: "32px" },
-  cardTitle: { fontSize: "20px", fontWeight: "bold", marginBottom: "10px", color: "#fff" },
-  cardDesc: { fontSize: "14px", color: "#888", lineHeight: "1.4" },
-  cardLine: { position: "absolute" as const, bottom: 0, left: 0, width: "100%", height: "4px" },
+  icon: { fontSize: "35px", marginBottom: "10px" },
+  cardTitle: { fontSize: "22px", fontWeight: "bold", color: "#fff", margin: 0 },
+  cardDesc: { fontSize: "14px", color: "#ccc", margin: "5px 0 0 0" },
 
-  cta: { marginTop: "40px", maxWidth: "600px", margin: "40px auto" },
-  ctaText: { fontSize: "20px", color: "#888", marginBottom: "30px", lineHeight: "1.6" },
+  cta: { textAlign: "center" as const, marginTop: "100px" },
   mainBtn: {
-    padding: "18px 45px", background: "#f39c12", color: "#000", border: "none",
-    borderRadius: "15px", fontSize: "18px", fontWeight: "bold", cursor: "pointer",
-    boxShadow: "0 10px 30px rgba(243, 156, 18, 0.4)", transition: "0.3s"
+    padding: "20px 50px", background: "#f39c12", color: "#000", border: "none",
+    borderRadius: "50px", fontSize: "20px", fontWeight: "bold", cursor: "pointer",
+    boxShadow: "0 0 40px rgba(243, 156, 18, 0.4)"
   }
 };
